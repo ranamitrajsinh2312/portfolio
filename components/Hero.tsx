@@ -67,6 +67,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
+      className="hero-section"
       style={{
         minHeight: "100vh",
         display: "flex",
@@ -239,7 +240,7 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
           style={{ position: "relative", height: "700px" }}
-          className="hero-spline"
+          className="hero-spline hero-right"
         >
           {/* Immersion Glow behind canvas */}
           <motion.div

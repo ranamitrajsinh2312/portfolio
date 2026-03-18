@@ -21,6 +21,7 @@ export default function Stats() {
       
       <div
         ref={ref}
+      className="stats-bar"
       style={{
         background: "rgba(17,17,24,0.4)",
         backdropFilter: "blur(20px)",

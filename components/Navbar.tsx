@@ -54,6 +54,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
+      className="navbar"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -110,6 +111,7 @@ export default function Navbar() {
 
       {/* Nav Links */}
       <div
+        className="navbar-links"
         style={{
           display: "flex",
           alignItems: "center",
@@ -145,8 +147,8 @@ export default function Navbar() {
       </div>
 
       {/* Social & CTA */}
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+      <div className="navbar-right" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+        <div className="navbar-social" style={{ display: "flex", gap: "12px", alignItems: "center" }}>
           {socialIcons.map((icon, i) => (
             <motion.a
               key={icon.name}

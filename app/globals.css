@@ -228,10 +228,72 @@ section {
   .container-custom {
     padding: 72px 24px;
   }
+
+  /* Hero layout: stack columns, soften padding */
+  .hero-section {
+    padding: 96px 24px 48px !important;
+  }
+
+  .hero-section .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  .hero-section .hero-right {
+    height: 520px !important;
+  }
+
+  /* Navbar: tighter padding, hide center links on mobile */
+  .navbar {
+    padding: 12px 20px !important;
+  }
+
+  .navbar-links {
+    display: none !important;
+  }
+
+  .navbar-right {
+    gap: 12px !important;
+  }
+
+  .navbar-social {
+    gap: 8px !important;
+  }
+
+  /* Stats bar: reduce horizontal padding & gap */
+  .stats-bar {
+    padding: 28px 24px !important;
+    gap: 40px !important;
+  }
+
+  /* Footer */
+  .footer-inner {
+    padding: 24px 24px !important;
+  }
 }
 
 @media (max-width: 600px) {
   .container-custom {
     padding: 56px 20px;
+  }
+
+  .hero-section {
+    padding: 88px 18px 40px !important;
+  }
+
+  .hero-section .hero-right {
+    height: 460px !important;
+  }
+
+  .navbar {
+    padding: 10px 16px !important;
+  }
+
+  .stats-bar {
+    padding: 24px 18px !important;
+  }
+
+  .footer-inner {
+    padding: 20px 18px !important;
   }
 }

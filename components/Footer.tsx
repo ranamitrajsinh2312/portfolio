@@ -9,6 +9,7 @@ export default function Footer() {
       <SectionGlow color="rgba(108,99,255,0.04)" />
 
       <div
+        className="footer-inner"
         style={{
           textAlign: "center",
           padding: "32px 60px",
