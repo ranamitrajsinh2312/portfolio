@@ -1,0 +1,44 @@
+﻿node.exe : D:\AWT\portfolio-m
+itrajsinh\node_modules\next\d
+ist\server\config.js:787
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (D:\AWT\  
+  portfoli...r\config.js:7   
+ 87:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+            throw new 
+Error(`Configuring Next.js 
+via '${(0, 
+_path.basename)(nonJsPath)}' 
+is not supported. Please 
+replace the file with 
+'next.config.js' or 
+'next.config.mjs'.`);
+                  ^
+
+Error: Configuring Next.js 
+via 'next.config.ts' is not 
+supported. Please replace 
+the file with 
+'next.config.js' or 
+'next.config.mjs'.
+    at loadConfig (D:\AWT\por
+tfolio-mitrajsinh\node_module
+s\next\dist\server\config.js:
+787:19)
+    at async Module.nextDev (
+D:\AWT\portfolio-mitrajsinh\n
+ode_modules\next\dist\cli\nex
+t-dev.js:175:14)
+
+Node.js v22.14.0
