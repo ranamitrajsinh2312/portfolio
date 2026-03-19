@@ -76,6 +76,7 @@ export default function Hero() {
         maxWidth: "1440px",
         margin: "0 auto",
         position: "relative",
+        overflow: "hidden",
       }}
     >
       {/* ── Two-column grid ── */}
@@ -104,7 +105,7 @@ export default function Hero() {
               background: "rgba(108,99,255,0.1)",
               border: "1px solid rgba(108,99,255,0.15)",
               color: "var(--accent2)",
-              fontSize: "13px",
+              fontSize: "clamp(11px, 1.2vw, 13px)",
               fontWeight: 500,
               padding: "7px 16px",
               borderRadius: "50px",
@@ -113,7 +114,7 @@ export default function Hero() {
               boxShadow: "0 4px 15px rgba(108,99,255,0.05)",
             }}
           >
-            <span className="animate-pulse-dot" style={{ width: "8px", height: "8px", background: "var(--green)", borderRadius: "50%" }} />
+            <span className="animate-pulse-dot" style={{ width: "8px", height: "8px", background: "var(--green)", borderRadius: "50%", flexShrink: 0 }} />
             Available for opportunities
           </motion.div>
 
@@ -123,10 +124,10 @@ export default function Hero() {
               className="animate-float"
               style={{
                 fontFamily: "var(--font-syne), sans-serif",
-                fontSize: "clamp(44px, 6vw, 92px)",
+                fontSize: "clamp(40px, 8vw, 96px)",
                 fontWeight: 800,
                 lineHeight: 0.95,
-                letterSpacing: "-4px",
+                letterSpacing: "clamp(-1px, -0.3vw, -4px)",
                 marginBottom: "28px",
               }}
             >
@@ -143,13 +144,14 @@ export default function Hero() {
             animate="visible"
             variants={fadeUp}
             style={{
-              fontSize: "18px",
+              fontSize: "clamp(14px, 2vw, 18px)",
               color: "var(--text2)",
-              maxWidth: "520px",
+              maxWidth: "540px",
               lineHeight: 1.8,
               marginBottom: "40px",
               fontWeight: 300,
             }}
+            className="hero-subtitle"
           >
             A Multi-Disciplinary{" "}
             <strong style={{ color: "var(--text)", fontWeight: 500 }}>
@@ -168,6 +170,7 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             variants={fadeUp}
+            className="hero-cta-row"
             style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "48px" }}
           >
             <motion.a
@@ -177,10 +180,11 @@ export default function Hero() {
               style={{
                 background: "var(--accent)", color: "#fff",
                 padding: "15px 32px", borderRadius: "50px",
-                fontSize: "15px", fontWeight: 600,
+                fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 600,
                 textDecoration: "none", display: "inline-flex",
                 alignItems: "center", gap: "10px",
                 transition: "box-shadow 0.3s",
+                minHeight: "44px",
               }}
             >
               Explore Work
@@ -196,10 +200,11 @@ export default function Hero() {
               style={{
                 background: "rgba(255,255,255,0.03)", color: "var(--text)",
                 padding: "15px 32px", borderRadius: "50px",
-                fontSize: "15px", fontWeight: 500,
+                fontSize: "clamp(13px, 1.5vw, 15px)", fontWeight: 500,
                 textDecoration: "none", border: "1px solid rgba(255,255,255,0.1)",
                 display: "inline-flex", alignItems: "center", gap: "10px",
                 transition: "all 0.3s",
+                minHeight: "44px",
               }}
             >
               Contact Me
@@ -224,6 +229,7 @@ export default function Hero() {
                   background: "var(--card)", border: "1px solid var(--border)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   color: "var(--text2)", transition: "background 0.3s, color 0.3s",
+                  minWidth: "44px", minHeight: "44px",
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = icon.hoverBg; e.currentTarget.style.color = "#fff"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "var(--card)"; e.currentTarget.style.color = "var(--text2)"; }}
@@ -260,6 +266,7 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="hero-scroll-indicator"
         style={{
           position: "absolute", bottom: "40px", left: "54px",
           display: "flex", alignItems: "center", gap: "12px",
@@ -271,11 +278,13 @@ export default function Hero() {
         Scroll Down
       </motion.div>
 
-      {/* Responsive adjustments */}
-      <style jsx>{`
-        @media (max-width: 1024px) {
-          .hero-grid { grid-template-columns: 1fr !important; }
-          .hero-spline { height: 440px !important; order: -1; margin-bottom: 2rem; }
+      {/* Responsive overrides */}
+      <style>{`
+        @media (max-width: 640px) {
+          .hero-subtitle { max-width: 90% !important; }
+          .hero-cta-row { flex-direction: column !important; }
+          .hero-cta-row a { width: 100% !important; justify-content: center !important; }
+          .hero-scroll-indicator { display: none !important; }
         }
       `}</style>
     </section>

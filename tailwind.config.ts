@@ -29,6 +29,14 @@ const config: Config = {
         head: ["var(--font-syne)", "sans-serif"],
         body: ["var(--font-dm-sans)", "sans-serif"],
       },
+      fontSize: {
+        "fluid-hero":  ["clamp(40px, 8vw, 96px)",  { lineHeight: "1.0" }],
+        "fluid-h2":    ["clamp(28px, 4vw, 48px)",   { lineHeight: "1.1" }],
+        "fluid-h3":    ["clamp(20px, 2.5vw, 32px)", { lineHeight: "1.2" }],
+        "fluid-body":  ["clamp(13px, 1.5vw, 16px)", { lineHeight: "1.75" }],
+        "fluid-sm":    ["clamp(11px, 1.2vw, 13px)", { lineHeight: "1.6" }],
+        "fluid-badge": ["clamp(10px, 1.1vw, 12px)", { lineHeight: "1" }],
+      },
       borderRadius: {
         card: "12px",
         card2: "20px",

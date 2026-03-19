@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
+  { name: "About",      href: "#about" },
+  { name: "Skills",     href: "#skills" },
+  { name: "Projects",   href: "#projects" },
   { name: "Experience", href: "#experience" },
+  { name: "Education",  href: "#education" },
 ];
 
 const socialIcons = [
@@ -44,162 +45,363 @@ const socialIcons = [
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
+  // Track scroll for blur/style changes
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    if (isMenuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+
+  const handleLinkClick = () => setIsMenuOpen(false);
+
   return (
-    <motion.nav
-      className="navbar"
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        zIndex: 1000,
-        padding: scrolled ? "12px 60px" : "24px 60px",
-        background: scrolled ? "rgba(10,10,15,0.75)" : "transparent",
-        backdropFilter: scrolled ? "blur(18px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-      }}
-    >
-      {/* Logo */}
-      <motion.a
-        href="#"
-        whileHover={{ scale: 1.05 }}
+    <div ref={menuRef} style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000 }}>
+      {/* ── Main navbar bar ── */}
+      <motion.nav
+        className="navbar"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         style={{
-          fontFamily: "var(--font-syne), sans-serif",
-          fontSize: "22px",
-          fontWeight: 800,
-          color: "var(--text)",
-          textDecoration: "none",
+          width: "100%",
+          height: "64px",
+          padding: scrolled ? "0 60px" : "0 60px",
+          background: scrolled ? "rgba(10,10,15,0.80)" : "transparent",
+          backdropFilter: scrolled ? "blur(18px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(18px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "none",
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          justifyContent: "space-between",
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
-        <span
+        {/* ── Logo ── */}
+        <motion.a
+          href="#"
+          whileHover={{ scale: 1.05 }}
           style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "8px",
-            background: "linear-gradient(135deg, var(--accent), var(--accent3))",
+            fontFamily: "var(--font-syne), sans-serif",
+            fontSize: "22px",
+            fontWeight: 800,
+            color: "var(--text)",
+            textDecoration: "none",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            fontSize: "14px",
-            color: "#fff",
-            fontWeight: 800,
-            boxShadow: "0 4px 12px rgba(108,99,255,0.3)",
+            gap: "8px",
+            flexShrink: 0,
           }}
         >
-          M
-        </span>
-        <span className="gradient-text">Mitrajsinh.</span>
-      </motion.a>
-
-      {/* Nav Links */}
-      <div
-        className="navbar-links"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "32px",
-          background: scrolled ? "rgba(255,255,255,0.03)" : "transparent",
-          padding: scrolled ? "8px 24px" : "0",
-          borderRadius: "50px",
-          border: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
-          transition: "all 0.3s",
-        }}
-      >
-        {navLinks.map((link, i) => (
-          <motion.a
-            key={link.name}
-            href={link.href}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + i * 0.1 }}
-            whileHover={{ y: -2 }}
+          <span
             style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: "linear-gradient(135deg, var(--accent), var(--accent3))",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               fontSize: "14px",
-              fontWeight: 500,
-              color: "var(--text2)",
-              textDecoration: "none",
-              transition: "color 0.2s",
+              color: "#fff",
+              fontWeight: 800,
+              boxShadow: "0 4px 12px rgba(108,99,255,0.3)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text2)")}
           >
-            {link.name}
-          </motion.a>
-        ))}
-      </div>
+            M
+          </span>
+          <span className="gradient-text">Mitrajsinh.</span>
+        </motion.a>
 
-      {/* Social & CTA */}
-      <div className="navbar-right" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        <div className="navbar-social" style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          {socialIcons.map((icon, i) => (
+        {/* ── Desktop: center nav links (lg+) ── */}
+        <div
+          className="navbar-links"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "32px",
+            background: scrolled ? "rgba(255,255,255,0.03)" : "transparent",
+            padding: scrolled ? "8px 24px" : "0",
+            borderRadius: "50px",
+            border: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+            transition: "all 0.3s",
+          }}
+        >
+          {navLinks.map((link, i) => (
             <motion.a
-              key={icon.name}
-              href={icon.href}
-              target="_blank"
-              rel="noreferrer"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-              whileHover={{
-                y: -3,
-                scale: 1.1,
-                color: icon.color,
-                filter: `drop-shadow(0 0 8px ${icon.color}60)`,
-              }}
+              key={link.name}
+              href={link.href}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.1 }}
+              whileHover={{ y: -2 }}
               style={{
-                color: "var(--text3)",
-                transition: "all 0.2s",
-                display: "flex",
-                alignItems: "center",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--text2)",
+                textDecoration: "none",
+                transition: "color 0.2s",
+                whiteSpace: "nowrap",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text2)")}
             >
-              {icon.svg}
+              {link.name}
             </motion.a>
           ))}
         </div>
 
-        <motion.a
-          href="mailto:ranamitrasinhj2312@gmail.com"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.8 }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 8px 24px rgba(108,99,255,0.4)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          style={{
-            background: "var(--accent)",
-            color: "#fff",
-            padding: "10px 22px",
-            borderRadius: "50px",
-            fontSize: "14px",
-            fontWeight: 500,
-            textDecoration: "none",
-            boxShadow: "0 4px 12px rgba(108,99,255,0.2)",
-          }}
+        {/* ── Right: social icons + CTA ── */}
+        <div
+          className="navbar-right"
+          style={{ display: "flex", alignItems: "center", gap: "16px", flexShrink: 0 }}
         >
-          Let&apos;s Talk
-        </motion.a>
-      </div>
-    </motion.nav>
+          {/* Social icon buttons — hidden on mobile (< 640px) */}
+          <div className="navbar-social" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            {socialIcons.map((icon, i) => (
+              <motion.a
+                key={icon.name}
+                href={icon.href}
+                target="_blank"
+                rel="noreferrer"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 + i * 0.1 }}
+                whileHover={{
+                  y: -3,
+                  scale: 1.1,
+                  color: icon.color,
+                  filter: `drop-shadow(0 0 8px ${icon.color}60)`,
+                }}
+                style={{
+                  color: "var(--text3)",
+                  transition: "all 0.2s",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "8px",
+                  minWidth: "44px",
+                  minHeight: "44px",
+                }}
+              >
+                {icon.svg}
+              </motion.a>
+            ))}
+          </div>
+
+          {/* Let's Talk pill — always visible */}
+          <motion.a
+            href="mailto:ranamitrasinhj2312@gmail.com"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.8 }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 8px 24px rgba(108,99,255,0.4)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: "var(--accent)",
+              color: "#fff",
+              padding: "10px 20px",
+              borderRadius: "50px",
+              fontSize: "14px",
+              fontWeight: 500,
+              textDecoration: "none",
+              boxShadow: "0 4px 12px rgba(108,99,255,0.2)",
+              whiteSpace: "nowrap",
+              minHeight: "44px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Let&apos;s Talk
+          </motion.a>
+
+          {/* Hamburger — mobile only (< 640px) */}
+          <button
+            className="navbar-hamburger"
+            onClick={() => setIsMenuOpen((v) => !v)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "var(--text)",
+              display: "none", // shown via CSS at < 640px
+              alignItems: "center",
+              justifyContent: "center",
+              width: "44px",
+              height: "44px",
+              borderRadius: "8px",
+              padding: 0,
+              flexShrink: 0,
+            }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {isMenuOpen ? (
+                <motion.svg
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  width="24"
+                  height="24"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </motion.svg>
+              ) : (
+                <motion.svg
+                  key="hamburger"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  width="24"
+                  height="24"
+                >
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </motion.svg>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* ── Mobile dropdown menu ── */}
+      <motion.div
+        initial={false}
+        animate={isMenuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={{
+          overflow: "hidden",
+          background: "rgba(10,10,15,0.92)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          // Only show on mobile
+          display: "none",
+        }}
+        className="navbar-mobile-menu"
+      >
+        <div style={{ padding: "16px 20px 20px" }}>
+          {/* Nav links */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "20px" }}>
+            {navLinks.map((link, i) => (
+              <motion.a
+                key={link.name}
+                href={link.href}
+                onClick={handleLinkClick}
+                initial={{ opacity: 0, x: -16 }}
+                animate={isMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
+                transition={{ delay: isMenuOpen ? i * 0.06 : 0, duration: 0.25 }}
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "var(--text2)",
+                  textDecoration: "none",
+                  padding: "12px 8px",
+                  borderRadius: "10px",
+                  transition: "color 0.2s, background 0.2s",
+                  display: "block",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--text)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--text2)";
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                {link.name}
+              </motion.a>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div style={{ height: "1px", background: "rgba(255,255,255,0.07)", marginBottom: "16px" }} />
+
+          {/* Social icons row */}
+          <div style={{ display: "flex", gap: "12px" }}>
+            {socialIcons.map((icon, i) => (
+              <motion.a
+                key={icon.name}
+                href={icon.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={handleLinkClick}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isMenuOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                transition={{ delay: isMenuOpen ? 0.3 + i * 0.08 : 0, duration: 0.25 }}
+                whileHover={{ scale: 1.15, color: icon.color }}
+                style={{
+                  color: "var(--text3)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "10px",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.02)",
+                  transition: "all 0.2s",
+                }}
+              >
+                {icon.svg}
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ── Responsive CSS ── */}
+      <style>{`
+        /* Tablet: hide nav text links, show icons + CTA */
+        @media (max-width: 1024px) {
+          .navbar { padding: 0 32px !important; }
+          .navbar-links { display: none !important; }
+        }
+
+        /* Mobile: hide social icons, show hamburger + mobile menu */
+        @media (max-width: 640px) {
+          .navbar { padding: 0 16px !important; }
+          .navbar-social { display: none !important; }
+          .navbar-hamburger { display: flex !important; }
+          .navbar-mobile-menu { display: block !important; }
+        }
+      `}</style>
+    </div>
   );
 }

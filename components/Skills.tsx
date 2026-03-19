@@ -10,7 +10,7 @@ export default function Skills() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="skills" style={{ position: "relative", zIndex: 1, background: "rgba(10,10,15,0.6)" }}>
+    <section id="skills" style={{ position: "relative", zIndex: 1, background: "rgba(10,10,15,0.6)", overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(56,189,248,0.08)" />
 
@@ -28,11 +28,11 @@ export default function Skills() {
           </p>
         </motion.div>
 
-        {/* Skills Grid */}
+        {/* Skills Grid — responsive via CSS class */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
             gap: "24px",
           }}
           className="skills-grid"
@@ -49,23 +49,25 @@ export default function Skills() {
                 background: "rgba(17,17,24,0.6)",
                 border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: "20px",
-                padding: "36px",
+                padding: "clamp(20px, 3vw, 36px)",
                 transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
                 position: "relative",
                 zIndex: 2,
                 overflow: "hidden",
                 backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
               }}
             >
               {/* Category Icon and Title */}
-              <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "32px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
                 <div
                   style={{
-                    width: "50px", height: "50px", borderRadius: "14px",
+                    width: "48px", height: "48px", borderRadius: "14px",
                     background: `${cat.headerColor}15`, display: "flex",
                     alignItems: "center", justifyContent: "center",
                     color: cat.headerColor, border: `1px solid ${cat.headerColor}30`,
                     boxShadow: `0 8px 20px ${cat.headerColor}10`,
+                    flexShrink: 0,
                   }}
                 >
                   <div
@@ -73,13 +75,18 @@ export default function Skills() {
                     dangerouslySetInnerHTML={{ __html: cat.headerSvg }}
                   />
                 </div>
-                <h3 style={{ fontSize: "19px", fontWeight: 700, color: "var(--text)", letterSpacing: "-0.4px" }}>
+                <h3 style={{
+                  fontSize: "clamp(16px, 2vw, 19px)",
+                  fontWeight: 700,
+                  color: "var(--text)",
+                  letterSpacing: "-0.4px",
+                }}>
                   {cat.category}
                 </h3>
               </div>
 
               {/* Skills Row */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {cat.skills.map((skill: Skill, si: number) => (
                   <motion.div
                     key={skill.name}
@@ -88,20 +95,17 @@ export default function Skills() {
                     transition={{ duration: 0.3, delay: (i * 0.12) + (si * 0.05) }}
                     whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.06)", borderColor: skill.color }}
                     style={{
-                      display: "inline-flex", alignItems: "center", gap: "8px",
-                      padding: "7px 14px 7px 10px", borderRadius: "10px",
+                      display: "inline-flex", alignItems: "center", gap: "6px",
+                      padding: "5px 12px 5px 8px", borderRadius: "10px",
                       border: "1px solid rgba(255,255,255,0.07)",
                       background: "rgba(255,255,255,0.02)",
-                      color: "var(--text2)", fontSize: "13px", fontWeight: 500,
+                      color: "var(--text2)",
+                      fontSize: "clamp(10px, 1.2vw, 13px)",
+                      fontWeight: 500,
                       transition: "all 0.25s ease-out", cursor: "default",
                     }}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill={skill.color}
-                      width="16"
-                      height="16"
-                    >
+                    <svg viewBox="0 0 24 24" fill={skill.color} width="14" height="14">
                       <path d={skill.svgPath} />
                     </svg>
                     {skill.name}

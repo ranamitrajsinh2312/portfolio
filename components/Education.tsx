@@ -10,7 +10,7 @@ export default function Education() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="education" style={{ background: "var(--bg)", position: "relative", zIndex: 1 }}>
+    <section id="education" style={{ background: "var(--bg)", position: "relative", zIndex: 1, overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(52,211,153,0.06)" />
 
@@ -28,11 +28,11 @@ export default function Education() {
           </p>
         </motion.div>
 
-        {/* Education Row */}
+        {/* Education Row — 3 col desktop, 2 col tablet, 1 col mobile */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
             gap: "24px",
             marginBottom: "80px",
           }}
@@ -50,21 +50,22 @@ export default function Education() {
                 background: "rgba(17,17,24,0.6)",
                 border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: "20px",
-                padding: "36px",
+                padding: "clamp(20px, 2.5vw, 36px)",
                 backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 transition: "all 0.35s ease",
               }}
             >
-              <div style={{ fontSize: "11px", color: "var(--text3)", marginBottom: "12px", letterSpacing: "1.5px", fontWeight: 700, textTransform: "uppercase" }}>
+              <div style={{ fontSize: "clamp(10px, 1.1vw, 11px)", color: "var(--text3)", marginBottom: "12px", letterSpacing: "1.5px", fontWeight: 700, textTransform: "uppercase" }}>
                 {edu.score}
               </div>
-              <h3 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text)", marginBottom: "4px" }}>
+              <h3 style={{ fontSize: "clamp(16px, 2vw, 20px)", fontWeight: 700, color: "var(--text)", marginBottom: "4px" }}>
                 {edu.institution}
               </h3>
-              <div style={{ fontSize: "14px", color: "var(--accent3)", fontWeight: 500, marginBottom: "20px" }}>
+              <div style={{ fontSize: "clamp(12px, 1.4vw, 14px)", color: "var(--accent3)", fontWeight: 500, marginBottom: "16px" }}>
                 {edu.degree}
               </div>
-              <div style={{ fontSize: "13px", color: "var(--text2)", fontWeight: 300, lineHeight: 1.7, maxWidth: "280px" }}>
+              <div style={{ fontSize: "clamp(12px, 1.3vw, 13px)", color: "var(--text2)", fontWeight: 300, lineHeight: 1.7 }}>
                 {edu.detail}
               </div>
             </motion.div>
@@ -80,7 +81,7 @@ export default function Education() {
           <h3
             style={{
               fontFamily: "var(--font-syne), sans-serif",
-              fontSize: "24px",
+              fontSize: "clamp(18px, 2.5vw, 24px)",
               fontWeight: 700,
               marginBottom: "32px",
               display: "flex",
@@ -95,7 +96,7 @@ export default function Education() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
               gap: "16px",
             }}
           >
@@ -112,14 +113,15 @@ export default function Education() {
                   border: "1px solid rgba(255,255,255,0.04)",
                   background: "rgba(255,255,255,0.01)",
                   transition: "all 0.2s", cursor: "pointer",
+                  minHeight: "44px",
                 }}
               >
-                <div style={{ fontSize: "22px", opacity: 0.8 }}>{cert.icon || "🎓"}</div>
+                <div style={{ fontSize: "22px", opacity: 0.8, flexShrink: 0 }}>{cert.icon || "🎓"}</div>
                 <div>
-                  <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--text)" }}>
+                  <div style={{ fontSize: "clamp(12px, 1.4vw, 14px)", fontWeight: 600, color: "var(--text)" }}>
                     {cert.name}
                   </div>
-                  <div style={{ fontSize: "11px", color: "var(--text3)", fontWeight: 500, textTransform: "uppercase", marginTop: "2px" }}>
+                  <div style={{ fontSize: "clamp(10px, 1.1vw, 11px)", color: "var(--text3)", fontWeight: 500, textTransform: "uppercase", marginTop: "2px" }}>
                     {cert.year}
                   </div>
                 </div>

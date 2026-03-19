@@ -18,78 +18,79 @@ export default function Stats() {
   return (
     <section id="stats" style={{ position: "relative", zIndex: 1 }}>
       <SectionGlow color="rgba(108,99,255,0.04)" />
-      
+
       <div
         ref={ref}
-      className="stats-bar"
-      style={{
-        background: "rgba(17,17,24,0.4)",
-        backdropFilter: "blur(20px)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-        padding: "36px 60px",
-        display: "flex",
-        justifyContent: "center",
-        gap: "80px",
-        flexWrap: "wrap",
-        position: "relative",
-        zIndex: 1,
-        overflow: "hidden",
-      }}
-    >
-      {/* Subtle shimmer line */}
-      <motion.div
-        animate={{ x: ["-100%", "200%"] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 4 }}
+        className="stats-bar"
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "40%",
-          height: "1px",
-          background: "linear-gradient(90deg, transparent, rgba(108,99,255,0.25), transparent)",
+          background: "rgba(17,17,24,0.4)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          padding: "36px 60px",
+          display: "flex",
+          justifyContent: "center",
+          gap: "80px",
+          flexWrap: "wrap",
+          position: "relative",
+          zIndex: 1,
+          overflow: "hidden",
         }}
-      />
-
-      {stats.map((stat, i) => (
+      >
+        {/* Subtle shimmer line */}
         <motion.div
-          key={stat.label}
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
-          whileHover={{ y: -4 }}
-          style={{ textAlign: "center", cursor: "default" }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-syne), sans-serif",
-              fontSize: "36px",
-              fontWeight: 800,
-              letterSpacing: "-1.5px",
-              color: "var(--text)",
-              display: "block",
-              lineHeight: 1,
-              background: "linear-gradient(135deg, var(--accent2), var(--accent3))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+          animate={{ x: ["-100%", "200%"] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 4 }}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "40%",
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(108,99,255,0.25), transparent)",
+          }}
+        />
+
+        {stats.map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: i * 0.12, ease: "easeOut" }}
+            whileHover={{ y: -4 }}
+            style={{ textAlign: "center", cursor: "default" }}
           >
-            {stat.num}
-          </span>
-          <span
-            style={{
-              fontSize: "13px",
-              color: "var(--text3)",
-              display: "block",
-              marginTop: "6px",
-              fontWeight: 400,
-            }}
-          >
-            {stat.label}
-          </span>
-        </motion.div>
-      ))}
+            <span
+              style={{
+                fontFamily: "var(--font-syne), sans-serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 800,
+                letterSpacing: "-1.5px",
+                color: "var(--text)",
+                display: "block",
+                lineHeight: 1,
+                background: "linear-gradient(135deg, var(--accent2), var(--accent3))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              {stat.num}
+            </span>
+            <span
+              style={{
+                fontSize: "clamp(11px, 1.3vw, 13px)",
+                color: "var(--text3)",
+                display: "block",
+                marginTop: "6px",
+                fontWeight: 400,
+              }}
+            >
+              {stat.label}
+            </span>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

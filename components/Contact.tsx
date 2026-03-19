@@ -80,9 +80,9 @@ export default function Contact() {
           transition={{ duration: 0.7, delay: 0.1 }}
           style={{
             fontFamily: "var(--font-syne), sans-serif",
-            fontSize: "clamp(40px, 5vw, 68px)",
+            fontSize: "clamp(36px, 5vw, 68px)",
             fontWeight: 800,
-            letterSpacing: "-2.5px",
+            letterSpacing: "clamp(-1px, -0.2vw, -2.5px)",
             lineHeight: 1.0,
             marginBottom: "20px",
           }}
@@ -113,7 +113,7 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.22 }}
           style={{
             color: "var(--text2)",
-            fontSize: "17px",
+            fontSize: "clamp(13px, 1.5vw, 17px)",
             fontWeight: 300,
             maxWidth: "440px",
             margin: "0 auto 44px",
@@ -124,10 +124,12 @@ export default function Contact() {
           Feel free to reach out!
         </motion.p>
 
+        {/* Contact buttons — responsive row that wraps on mobile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.34 }}
+          className="contact-buttons"
           style={{
             display: "flex",
             justifyContent: "center",
@@ -155,9 +157,10 @@ export default function Contact() {
                 textDecoration: "none",
                 padding: "13px 24px",
                 borderRadius: "50px",
-                fontSize: "14px",
+                fontSize: "clamp(12px, 1.4vw, 14px)",
                 fontWeight: 400,
                 transition: "border-color 0.2s, box-shadow 0.2s",
+                minHeight: "44px",
               }}
             >
               {link.svg}

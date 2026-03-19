@@ -10,7 +10,7 @@ export default function Projects() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" style={{ position: "relative", zIndex: 1, background: "var(--bg)" }}>
+    <section id="projects" style={{ position: "relative", zIndex: 1, background: "var(--bg)", overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(167,139,250,0.08)" />
 
@@ -28,12 +28,12 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* Project Grid */}
+        {/* Project Grid — responsive via CSS class */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "32px",
+            gap: "28px",
           }}
           className="projects-grid"
         >
@@ -44,35 +44,37 @@ export default function Projects() {
               animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: i * 0.15, ease: "easeOut" }}
               whileHover={{ y: -12, scale: 1.01 }}
-              className="card-glow"
+              className="card-glow project-card"
               style={{
+                /* Featured spans 2 cols on desktop/tablet, 1 col on mobile (overridden by CSS) */
                 gridColumn: project.featured ? "span 2" : "span 1",
                 background: "rgba(17,17,24,0.6)",
                 border: "1px solid rgba(255,255,255,0.06)",
                 borderRadius: "24px",
-                padding: project.featured ? "48px" : "40px",
+                padding: project.featured ? "clamp(20px, 3vw, 48px)" : "clamp(20px, 3vw, 40px)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                gap: "32px",
+                gap: "28px",
                 transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                 position: "relative",
                 zIndex: 2,
                 overflow: "hidden",
                 backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
                 cursor: "pointer",
               }}
             >
               {/* Content side */}
               <div style={{ position: "relative", zIndex: 2 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
                   <motion.span
                     animate={{ opacity: [0.7, 1, 0.7] }}
                     transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
                     style={{
-                      padding: "5px 14px",
+                      padding: "4px 12px",
                       borderRadius: "50px",
-                      fontSize: "12px",
+                      fontSize: "clamp(10px, 1.1vw, 12px)",
                       fontWeight: 700,
                       background: "rgba(108,99,255,0.1)",
                       color: "var(--accent2)",
@@ -87,21 +89,24 @@ export default function Projects() {
                 <h3
                   style={{
                     fontFamily: "var(--font-syne), sans-serif",
-                    fontSize: project.featured ? "36px" : "28px",
+                    fontSize: project.featured
+                      ? "clamp(22px, 3vw, 36px)"
+                      : "clamp(18px, 2.2vw, 28px)",
                     fontWeight: 700,
-                    marginBottom: "16px",
+                    marginBottom: "12px",
                     letterSpacing: "-0.8px",
                     lineHeight: 1.1,
                   }}
                 >
                   {project.title}
                 </h3>
+
                 <p
                   style={{
                     color: "var(--text2)",
-                    fontSize: project.featured ? "16px" : "15px",
+                    fontSize: "clamp(13px, 1.5vw, 16px)",
                     lineHeight: 1.75,
-                    marginBottom: "36px",
+                    marginBottom: "28px",
                     fontWeight: 300,
                     maxWidth: "540px",
                   }}
@@ -110,7 +115,7 @@ export default function Projects() {
                 </p>
 
                 {/* Stacks */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "36px" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "28px" }}>
                   {project.stack.map((tech: string, ti: number) => (
                     <motion.span
                       key={tech}
@@ -118,9 +123,9 @@ export default function Projects() {
                       animate={inView ? { opacity: 1, scale: 1 } : {}}
                       transition={{ duration: 0.3, delay: 0.6 + i * 0.1 + ti * 0.05 }}
                       style={{
-                        padding: "5px 12px", borderRadius: "8px",
+                        padding: "4px 10px", borderRadius: "8px",
                         background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
-                        fontSize: "12px", color: "var(--text3)", fontWeight: 500,
+                        fontSize: "clamp(10px, 1.1vw, 12px)", color: "var(--text3)", fontWeight: 500,
                       }}
                     >
                       {tech}
@@ -146,7 +151,7 @@ export default function Projects() {
                       target="_blank"
                       rel="noreferrer"
                       whileHover={{ scale: 1.2, color: "var(--text)" }}
-                      style={{ color: "var(--text2)", transition: "color 0.2s" }}
+                      style={{ color: "var(--text2)", transition: "color 0.2s", minWidth: "44px", minHeight: "44px", display: "flex", alignItems: "center", justifyContent: "center" }}
                       title="GitHub Repository"
                     >
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -160,7 +165,7 @@ export default function Projects() {
                   whileHover={{ x: 5 }}
                   style={{
                     display: "flex", alignItems: "center", gap: "8px",
-                    color: "var(--accent3)", fontSize: "14px", fontWeight: 700,
+                    color: "var(--accent3)", fontSize: "clamp(12px, 1.4vw, 14px)", fontWeight: 700,
                   }}
                 >
                   View Details
@@ -184,17 +189,6 @@ export default function Projects() {
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 900px) {
-          .projects-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .card-glow {
-            grid-column: span 1 !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

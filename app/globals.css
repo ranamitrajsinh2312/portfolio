@@ -26,8 +26,7 @@
 /* ── Reset ──────────────────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
-  /* NOTE: overflow-x removed — GlowBg uses position:fixed and bleeds edges
-     intentionally. body overflow-x handles scroll prevention. */
+  overflow-x: hidden;
 }
 
 *,
@@ -44,7 +43,7 @@ body {
   font-family: var(--font-dm-sans), sans-serif;
   font-size: 16px;
   line-height: 1.7;
-  overflow-x: hidden; /* prevent horizontal scroll from content (not glow) */
+  overflow-x: hidden;
 }
 
 /* ── Noise overlay ──────────────────────────────────────────────────────── */
@@ -67,6 +66,7 @@ body::before {
 section {
   position: relative;
   z-index: 1;
+  overflow-x: hidden;
 }
 
 /* ── Container ──────────────────────────────────────────────────────────── */
@@ -78,7 +78,7 @@ section {
 
 /* ── Section typography ─────────────────────────────────────────────────── */
 .section-eyebrow {
-  font-size: 12px;
+  font-size: clamp(10px, 1.2vw, 12px);
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -88,19 +88,20 @@ section {
 
 .section-title {
   font-family: var(--font-syne), sans-serif;
-  font-size: clamp(32px, 4vw, 48px);
+  font-size: clamp(28px, 4vw, 48px);
   font-weight: 700;
-  letter-spacing: -1.5px;
+  letter-spacing: clamp(-0.5px, -0.1vw, -1.5px);
   line-height: 1.1;
   margin-bottom: 16px;
 }
 
 .section-desc {
-  font-size: 16px;
+  font-size: clamp(13px, 1.5vw, 16px);
   color: var(--text2);
   max-width: 500px;
   font-weight: 300;
   margin-bottom: 60px;
+  line-height: 1.75;
 }
 
 /* ── Global keyframe library ─────────────────────────────────────────────── */
@@ -194,7 +195,7 @@ section {
   border-radius: 8px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.04);
-  font-size: 12px;
+  font-size: clamp(10px, 1.1vw, 12px);
   font-weight: 500;
   color: var(--text2);
   transition: all 0.2s;
@@ -208,10 +209,8 @@ section {
 }
 
 /* ── Hero canvas right column ───────────────────────────────────────────── */
-/* overflow:hidden removed — canvas ctx.clip() handles bounds internally */
 .hero-spline {
   border-radius: 24px;
-  /* No overflow:hidden — the canvas itself clips its own drawing */
 }
 
 /* ── Section divider line ───────────────────────────────────────────────── */
@@ -223,76 +222,146 @@ section {
   margin-bottom: 48px;
 }
 
-/* ── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 900px) {
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Wide (1280px+) ─────────────────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .stats-bar {
+    gap: 80px !important;
+  }
+}
+
+/* ── Desktop (1024px–1279px) ────────────────────────────────────────────── */
+@media (max-width: 1280px) and (min-width: 1024px) {
   .container-custom {
-    padding: 72px 24px;
+    padding: 100px 40px;
+  }
+}
+
+/* ── Tablet (640px–1024px) ──────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .container-custom {
+    padding: 80px 32px;
   }
 
-  /* Hero layout: stack columns, soften padding */
+  /* Hero */
   .hero-section {
-    padding: 96px 24px 48px !important;
+    padding: 100px 32px 60px !important;
   }
-
   .hero-section .hero-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 55fr 45fr !important;
     gap: 40px !important;
   }
-
   .hero-section .hero-right {
     height: 520px !important;
   }
 
-  /* Navbar: tighter padding, hide center links on mobile */
+  /* Navbar */
   .navbar {
-    padding: 12px 20px !important;
+    padding: 0 32px !important;
   }
 
-  .navbar-links {
-    display: none !important;
-  }
-
-  .navbar-right {
-    gap: 12px !important;
-  }
-
-  .navbar-social {
-    gap: 8px !important;
-  }
-
-  /* Stats bar: reduce horizontal padding & gap */
+  /* Stats bar */
   .stats-bar {
-    padding: 28px 24px !important;
     gap: 40px !important;
+  }
+
+  /* Projects: 2 cols on tablet */
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Skills: 2 cols on tablet */
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Education: 2 cols on tablet */
+  .edu-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 
   /* Footer */
   .footer-inner {
-    padding: 24px 24px !important;
+    padding: 24px 32px !important;
   }
 }
 
-@media (max-width: 600px) {
+/* ── Mobile (< 640px) ───────────────────────────────────────────────────── */
+@media (max-width: 640px) {
   .container-custom {
-    padding: 56px 20px;
+    padding: 60px 20px;
   }
 
+  /* Hero: single column — text on top, canvas below */
   .hero-section {
-    padding: 88px 18px 40px !important;
+    padding: 88px 20px 48px !important;
   }
-
+  .hero-section .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    /* No order reversal: text is first in DOM so it stays on top */
+  }
   .hero-section .hero-right {
-    height: 460px !important;
+    height: 300px !important;
+    order: 2; /* canvas always after text on mobile */
+  }
+  /* On mobile, disable pointer events on canvas to prevent scroll blocking */
+  .hero-section .hero-right canvas,
+  .hero-section .hero-right > * {
+    pointer-events: none !important;
   }
 
+  /* Navbar */
   .navbar {
-    padding: 10px 16px !important;
+    padding: 0 16px !important;
   }
 
+  /* Stats bar: 2x2 grid */
   .stats-bar {
-    padding: 24px 18px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px 32px !important;
+    padding: 28px 20px !important;
+    justify-items: center;
   }
 
+  /* Projects: 1 column, no span */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .projects-grid > * {
+    grid-column: span 1 !important;
+  }
+
+  /* Skills: 1 column */
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* About: 1 column */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .about-image-col {
+    max-width: 280px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Education: 1 column */
+  .edu-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Section eyebrow / desc */
+  .section-desc {
+    max-width: 100%;
+  }
+
+  /* Footer */
   .footer-inner {
     padding: 20px 18px !important;
   }

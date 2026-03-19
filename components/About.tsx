@@ -73,7 +73,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="about" style={{ position: "relative", zIndex: 1, background: "rgba(10,10,15,0.4)" }}>
+    <section id="about" style={{ position: "relative", zIndex: 1, background: "rgba(10,10,15,0.4)", overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
 
@@ -93,15 +93,15 @@ export default function About() {
             animate={inView ? { opacity: 1, scale: 1, x: 0 } : {}}
             transition={{ duration: 1.0 }}
             style={{ position: "relative" }}
+            className="about-image-col"
           >
-
-
             <div className="card-glow animate-float" style={{ borderRadius: "24px" }}>
               <div
                 style={{
                   position: "relative",
                   zIndex: 2, width: "100%", padding: "60px 20px",
                   background: "rgba(22,22,31,0.7)", backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                   borderRadius: "24px", border: "1px solid rgba(255,255,255,0.08)",
                   display: "flex", flexDirection: "column",
                   alignItems: "center", justifyContent: "center", gap: "16px",
@@ -122,17 +122,17 @@ export default function About() {
                   MR
                 </div>
                 <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "16px", color: "var(--text)", fontWeight: 600, display: "block" }}>
+                  <span style={{ fontSize: "clamp(14px, 1.5vw, 16px)", color: "var(--text)", fontWeight: 600, display: "block" }}>
                     Mitrajsinh Rana
                   </span>
-                  <span style={{ fontSize: "12px", color: "var(--accent3)", letterSpacing: "1px", textTransform: "uppercase", fontWeight: 700 }}>
+                  <span style={{ fontSize: "clamp(10px, 1.1vw, 12px)", color: "var(--accent3)", letterSpacing: "1px", textTransform: "uppercase", fontWeight: 700 }}>
                     Full-Stack Engineer
                   </span>
                 </div>
 
                 {/* Tech dot indicator */}
                 <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
-                  {[ "#61dafb", "#68a063", "#54c5f8", "#3776ab" ].map((c, i) => (
+                  {["#61dafb", "#68a063", "#54c5f8", "#3776ab"].map((c, i) => (
                     <motion.div
                       key={i}
                       animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
@@ -158,12 +158,12 @@ export default function About() {
               refined by <span className="gradient-text">design.</span>
             </h2>
             <div className="section-divider" />
-            <p style={{ color: "var(--text2)", fontWeight: 300, marginBottom: "18px", lineHeight: 1.9, fontSize: "16.5px" }}>
+            <p style={{ color: "var(--text2)", fontWeight: 300, marginBottom: "18px", lineHeight: 1.9, fontSize: "clamp(13px, 1.5vw, 16.5px)" }}>
               I&apos;m a Computer Science undergraduate at Darshan University,
               Rajkot, bridging the gap between pixel-perfect design and high-performance server logic.
               With a foundation in <strong>Full-Stack development</strong> and <strong>Machine Learning</strong>, I enjoy solving complex architecture problems.
             </p>
-            <p style={{ color: "var(--text2)", fontWeight: 300, marginBottom: "32px", lineHeight: 1.9, fontSize: "16.5px" }}>
+            <p style={{ color: "var(--text2)", fontWeight: 300, marginBottom: "32px", lineHeight: 1.9, fontSize: "clamp(13px, 1.5vw, 16.5px)" }}>
               My background in Graphic Design allows me to visualize the complete user journey while writing clean, scalable code.
               I&apos;m currently looking for opportunities where I can push technical boundaries and build future-ready products.
             </p>
@@ -180,9 +180,10 @@ export default function About() {
                   style={{
                     display: "inline-flex", alignItems: "center", gap: "8px",
                     background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
-                    color: "var(--text2)", fontSize: "13px", fontWeight: 500,
-                    padding: "7px 16px 7px 10px", borderRadius: "10px",
+                    color: "var(--text2)", fontSize: "clamp(11px, 1.2vw, 13px)", fontWeight: 500,
+                    padding: "7px 14px 7px 10px", borderRadius: "10px",
                     transition: "border-color 0.3s, background 0.3s", cursor: "default",
+                    minHeight: "36px",
                   }}
                 >
                   <span style={{ display: "flex", padding: "4px", borderRadius: "6px", background: `${chip.color}15`, color: chip.color }}>
@@ -195,12 +196,6 @@ export default function About() {
           </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 900px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-        }
-      `}</style>
     </section>
   );
 }
