@@ -41,7 +41,7 @@ const contactLinks = [
   },
   {
     label: "Call Me",
-    href: "tel:8401447354",
+    href: "tel:9499710732",
     color: "#34d399",
     svg: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
