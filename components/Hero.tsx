@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import HeroCanvas from "@/components/HeroCanvas";
+import FloatingParticles from "@/components/FloatingParticles";
 
 const socialLinks = [
   {
@@ -39,7 +40,7 @@ const socialLinks = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/918401447354",
+    href: "https://wa.me/919499710732",
     hoverBg: "linear-gradient(135deg, #25d366, #128c7e)",
     hoverShadow: "rgba(37,211,102,0.45)",
     svg: (
@@ -79,6 +80,18 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
+      {/* Ambient particles */}
+      <FloatingParticles
+        count={22}
+        colors={[
+          "rgba(108,99,255,0.6)",
+          "rgba(167,139,250,0.5)",
+          "rgba(56,189,248,0.45)",
+          "rgba(52,211,153,0.35)",
+        ]}
+        zIndex={0}
+      />
+
       {/* ── Two-column grid ── */}
       <div
         style={{
@@ -189,7 +202,7 @@ export default function Hero() {
             >
               Explore Work
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+                <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
               </svg>
             </motion.a>
 

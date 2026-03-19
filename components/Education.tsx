@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { educationData, certificationsData, type Education, type Certification } from "@/data/education";
 import SectionGlow from "@/components/SectionGlow";
+import FloatingParticles from "@/components/FloatingParticles";
 
 export default function Education() {
   const ref = useRef(null);
@@ -13,6 +14,11 @@ export default function Education() {
     <section id="education" style={{ background: "var(--bg)", position: "relative", zIndex: 1, overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(52,211,153,0.06)" />
+      <FloatingParticles
+        count={15}
+        colors={["rgba(52,211,153,0.5)", "rgba(56,189,248,0.45)", "rgba(167,139,250,0.4)"]}
+        zIndex={0}
+      />
 
       <div className="container-custom" ref={ref}>
         <motion.div

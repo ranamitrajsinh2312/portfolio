@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import SectionGlow from "@/components/SectionGlow";
+import FloatingParticles from "@/components/FloatingParticles";
 
 const bullets = [
   "Worked on real-world data preprocessing, cleaning, and visualization tasks",
@@ -24,6 +25,11 @@ export default function Experience() {
     >
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
+      <FloatingParticles
+        count={14}
+        colors={["rgba(108,99,255,0.55)", "rgba(56,189,248,0.4)", "rgba(167,139,250,0.45)"]}
+        zIndex={0}
+      />
 
       <div className="container-custom" ref={ref}>
         <motion.div

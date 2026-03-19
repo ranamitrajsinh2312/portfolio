@@ -67,6 +67,7 @@ const chips: Chip[] = [
 ];
 
 import SectionGlow from "@/components/SectionGlow";
+import FloatingParticles from "@/components/FloatingParticles";
 
 export default function About() {
   const ref = useRef(null);
@@ -76,6 +77,11 @@ export default function About() {
     <section id="about" style={{ position: "relative", zIndex: 1, background: "rgba(10,10,15,0.4)", overflow: "hidden" }}>
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
+      <FloatingParticles
+        count={14}
+        colors={["rgba(108,99,255,0.55)", "rgba(167,139,250,0.5)", "rgba(244,114,182,0.35)"]}
+        zIndex={0}
+      />
 
       <div className="container-custom" ref={ref}>
         <div

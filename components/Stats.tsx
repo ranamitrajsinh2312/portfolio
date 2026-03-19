@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import SectionGlow from "@/components/SectionGlow";
+import FloatingParticles from "@/components/FloatingParticles";
 
 const stats = [
   { num: "6+",   label: "Projects Built",   icon: "🗂" },
@@ -38,6 +39,13 @@ export default function Stats() {
           overflow: "hidden",
         }}
       >
+        {/* Ambient particles */}
+        <FloatingParticles
+          count={10}
+          colors={["rgba(108,99,255,0.5)", "rgba(167,139,250,0.45)", "rgba(56,189,248,0.4)"]}
+          zIndex={0}
+        />
+
         {/* Subtle shimmer line */}
         <motion.div
           animate={{ x: ["-100%", "200%"] }}

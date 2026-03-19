@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 import SectionGlow from "@/components/SectionGlow";
+import FloatingParticles from "@/components/FloatingParticles";
 
 const contactLinks = [
   {
@@ -41,7 +42,7 @@ const contactLinks = [
   },
   {
     label: "Call Me",
-    href: "tel:8401447354",
+    href: "tel:9499710732",
     color: "#34d399",
     svg: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
@@ -62,6 +63,16 @@ export default function Contact() {
     >
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
+      <FloatingParticles
+        count={20}
+        colors={[
+          "rgba(108,99,255,0.55)",
+          "rgba(167,139,250,0.5)",
+          "rgba(56,189,248,0.45)",
+          "rgba(244,114,182,0.4)",
+        ]}
+        zIndex={0}
+      />
 
       <div className="container-custom" ref={ref}>
         <motion.div
