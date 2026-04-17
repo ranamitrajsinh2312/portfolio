@@ -15,7 +15,7 @@ export default function Skills() {
       {/* Immersive background glow */}
       <SectionGlow color="rgba(56,189,248,0.08)" />
       <FloatingParticles
-        count={16}
+        count={6}
         colors={["rgba(56,189,248,0.55)", "rgba(167,139,250,0.45)", "rgba(108,99,255,0.4)"]}
         zIndex={0}
       />

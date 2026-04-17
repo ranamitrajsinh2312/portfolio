@@ -58,9 +58,10 @@ export default function HeroCanvas() {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { alpha: true })!;
     let W = 0, H = 0;
     let t = 0;
+    let frameSkip = 0; // throttle to ~30fps
 
     function resize() {
       W = canvas!.offsetWidth;
@@ -87,11 +88,11 @@ export default function HeroCanvas() {
     ];
 
     // ── Background motes ────────────────────────────────────────────────────
-    const motes: Mote[] = Array.from({ length: 55 }, () => ({
+    const motes: Mote[] = Array.from({ length: 25 }, () => ({
       x: Math.random() * 800, y: Math.random() * 600,
-      vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25,
-      size: Math.random() * 1.8 + .4,
-      alpha: Math.random() * .45 + .05,
+      vx: (Math.random() - .5) * .2, vy: (Math.random() - .5) * .2,
+      size: Math.random() * 1.5 + .4,
+      alpha: Math.random() * .35 + .05,
       color: ["#6c63ff","#38bdf8","#a78bfa","#34d399"][Math.floor(Math.random()*4)],
     }));
 
@@ -303,15 +304,13 @@ export default function HeroCanvas() {
       ctx.clip();
       const cx = CX(), cy = CY(), r = R();
 
-      // Grid
+      // Grid — single batched path for all lines (much cheaper)
       ctx.strokeStyle = "rgba(108,99,255,.04)";
       ctx.lineWidth = 1;
-      for (let x = 0; x < W; x += 36) {
-        ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();
-      }
-      for (let y = 0; y < H; y += 36) {
-        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
-      }
+      ctx.beginPath();
+      for (let x = 0; x < W; x += 48) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+      for (let y = 0; y < H; y += 48) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+      ctx.stroke();
 
       // Motes
       motes.forEach(m => {
@@ -342,15 +341,30 @@ export default function HeroCanvas() {
       ctx.restore();
     }
 
+    // Throttle to ~30fps by skipping every other frame
     function loop() {
-      update(); draw();
+      frameSkip++;
+      if (frameSkip % 2 === 0) {
+        update(); draw();
+      }
       raf.current = requestAnimationFrame(loop);
     }
     raf.current = requestAnimationFrame(loop);
 
+    // Pause animation when tab is hidden
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(raf.current);
+      } else {
+        raf.current = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       cancelAnimationFrame(raf.current);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 

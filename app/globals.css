@@ -25,7 +25,10 @@
 
 /* ── Reset ──────────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth intentionally removed — causes scroll jank with
+     fixed elements, backdrop-filter, and CSS animations running in parallel.
+     Use JS-driven smooth scroll only for anchor clicks where needed. */
+  scroll-padding-top: 64px; /* account for fixed navbar height */
   overflow-x: hidden;
 }
 
@@ -67,6 +70,27 @@ section {
   position: relative;
   z-index: 1;
   overflow-x: hidden;
+  /* CSS containment: each section is an independent layout/paint boundary */
+  contain: layout style;
+}
+
+/* ── Performance: GPU-promote animated elements ─────────────────────────── */
+.sg-glow,
+.gb-shape,
+.hero-glow-bg,
+.hero-scroll {
+  will-change: transform, opacity;
+}
+
+/* ── Respect user motion preferences ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ── Container ──────────────────────────────────────────────────────────── */

@@ -41,21 +41,22 @@ export default function Stats() {
       >
         {/* Ambient particles */}
         <FloatingParticles
-          count={10}
+          count={5}
           colors={["rgba(108,99,255,0.5)", "rgba(167,139,250,0.45)", "rgba(56,189,248,0.4)"]}
           zIndex={0}
         />
 
-        {/* Subtle shimmer line */}
-        <motion.div
-          animate={{ x: ["-100%", "200%"] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 4 }}
+        {/* Subtle shimmer line — CSS animated */}
+        <style>{`
+          @keyframes shimmer-line { 0%{transform:translateX(-100%)} 100%{transform:translateX(400%)} }
+          .stats-shimmer { animation: shimmer-line 3.5s ease-in-out infinite; animation-delay: 0s; will-change: transform; }
+        `}</style>
+        <div
+          className="stats-shimmer"
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            width: "40%",
-            height: "1px",
+            top: 0, left: 0,
+            width: "40%", height: "1px",
             background: "linear-gradient(90deg, transparent, rgba(108,99,255,0.25), transparent)",
           }}
         />

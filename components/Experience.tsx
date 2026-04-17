@@ -26,7 +26,7 @@ export default function Experience() {
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
       <FloatingParticles
-        count={14}
+        count={6}
         colors={["rgba(108,99,255,0.55)", "rgba(56,189,248,0.4)", "rgba(167,139,250,0.45)"]}
         zIndex={0}
       />
@@ -69,9 +69,10 @@ export default function Experience() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             {/* Animated dot */}
-            <motion.div
-              animate={{ boxShadow: ["0 0 0 3px rgba(108,99,255,0.2)", "0 0 0 8px rgba(108,99,255,0.05)", "0 0 0 3px rgba(108,99,255,0.2)"] }}
-              transition={{ duration: 2.5, repeat: Infinity }}
+            <style>{`
+              @keyframes exp-ring { 0%,100%{box-shadow:0 0 0 3px rgba(108,99,255,0.2)} 50%{box-shadow:0 0 0 8px rgba(108,99,255,0.05)} }
+            `}</style>
+            <div
               style={{
                 position: "absolute",
                 left: "-6px",
@@ -80,6 +81,7 @@ export default function Experience() {
                 height: "12px",
                 borderRadius: "50%",
                 background: "linear-gradient(135deg, var(--accent), var(--accent3))",
+                animation: "exp-ring 2.5s ease-in-out infinite",
               }}
             />
 
@@ -119,13 +121,11 @@ export default function Experience() {
                     lineHeight: 1.75,
                   }}
                 >
-                  <motion.span
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                    style={{ position: "absolute", left: 0, color: "var(--accent)", fontWeight: 700 }}
-                  >
-                    →
-                  </motion.span>
+                  <style>{`
+                    @keyframes arrow-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+                    .exp-arrow { position:absolute;left:0;color:var(--accent);font-weight:700;animation:arrow-pulse 2s ease-in-out infinite; }
+                  `}</style>
+                  <span className="exp-arrow" style={{ animationDelay: `${i * 0.3}s` }}>→</span>
                   {bullet}
                 </motion.li>
               ))}

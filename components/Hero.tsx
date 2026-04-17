@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import HeroCanvas from "@/components/HeroCanvas";
-import FloatingParticles from "@/components/FloatingParticles";
 
 const socialLinks = [
   {
@@ -80,17 +79,7 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* Ambient particles */}
-      <FloatingParticles
-        count={22}
-        colors={[
-          "rgba(108,99,255,0.6)",
-          "rgba(167,139,250,0.5)",
-          "rgba(56,189,248,0.45)",
-          "rgba(52,211,153,0.35)",
-        ]}
-        zIndex={0}
-      />
+      {/* Ambient particles — now handled by GlowBg globally */}
 
       {/* ── Two-column grid ── */}
       <div
@@ -261,10 +250,13 @@ export default function Hero() {
           style={{ position: "relative", height: "700px" }}
           className="hero-spline hero-right"
         >
-          {/* Immersion Glow behind canvas */}
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          {/* Immersion Glow behind canvas — CSS animated */}
+          <style>{`
+            @keyframes hero-glow { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.35;transform:scale(1.2)} }
+            .hero-glow-bg { animation: hero-glow 8s ease-in-out infinite; will-change: transform, opacity; }
+          `}</style>
+          <div
+            className="hero-glow-bg"
             style={{
               position: "absolute", inset: "-60px",
               background: "radial-gradient(circle at center, rgba(108,99,255,0.12) 0%, rgba(56,189,248,0.05) 40%, transparent 75%)",
@@ -275,11 +267,13 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Floating scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="hero-scroll-indicator"
+      {/* Floating scroll indicator — CSS animated */}
+      <style>{`
+        @keyframes scroll-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+        .hero-scroll { animation: scroll-bounce 2s ease-in-out infinite; }
+      `}</style>
+      <div
+        className="hero-scroll hero-scroll-indicator"
         style={{
           position: "absolute", bottom: "40px", left: "54px",
           display: "flex", alignItems: "center", gap: "12px",
@@ -289,7 +283,7 @@ export default function Hero() {
       >
         <div style={{ width: "40px", height: "1px", background: "linear-gradient(to right, var(--accent), transparent)" }} />
         Scroll Down
-      </motion.div>
+      </div>
 
       {/* Responsive overrides */}
       <style>{`

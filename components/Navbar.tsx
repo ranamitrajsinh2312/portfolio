@@ -49,10 +49,19 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Track scroll for blur/style changes
+  // Throttle scroll handler with rAF + passive listener
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -67,6 +76,17 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
 
+  // JS smooth scroll for anchor link clicks only (not global CSS scroll-behavior)
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    setIsMenuOpen(false);
+    const el = document.querySelector(href) as HTMLElement | null;
+    if (el) {
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
+    }
+  };
+
   const handleLinkClick = () => setIsMenuOpen(false);
 
   return (
@@ -80,7 +100,7 @@ export default function Navbar() {
         style={{
           width: "100%",
           height: "64px",
-          padding: scrolled ? "0 60px" : "0 60px",
+          padding: "0 60px",
           background: scrolled ? "rgba(10,10,15,0.80)" : "transparent",
           backdropFilter: scrolled ? "blur(18px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(18px)" : "none",
@@ -88,7 +108,8 @@ export default function Navbar() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "background 0.4s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.4s, border-color 0.4s",
+          willChange: "transform",
         }}
       >
         {/* ── Logo ── */}
@@ -145,6 +166,7 @@ export default function Navbar() {
             <motion.a
               key={link.name}
               href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.1 }}
@@ -322,7 +344,7 @@ export default function Navbar() {
               <motion.a
                 key={link.name}
                 href={link.href}
-                onClick={handleLinkClick}
+                onClick={(e) => handleNavClick(e, link.href)}
                 initial={{ opacity: 0, x: -16 }}
                 animate={isMenuOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
                 transition={{ delay: isMenuOpen ? i * 0.06 : 0, duration: 0.25 }}

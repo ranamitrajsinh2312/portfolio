@@ -78,7 +78,7 @@ export default function About() {
       {/* Immersive background glow */}
       <SectionGlow color="rgba(108,99,255,0.08)" />
       <FloatingParticles
-        count={14}
+        count={6}
         colors={["rgba(108,99,255,0.55)", "rgba(167,139,250,0.5)", "rgba(244,114,182,0.35)"]}
         zIndex={0}
       />
@@ -138,13 +138,19 @@ export default function About() {
 
                 {/* Tech dot indicator */}
                 <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
-                  {["#61dafb", "#68a063", "#54c5f8", "#3776ab"].map((c, i) => (
-                    <motion.div
+                  <style>{`
+                    @keyframes dot-pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
+                  `}</style>
+                  {(["#61dafb", "#68a063", "#54c5f8", "#3776ab"] as string[]).map((c, i) => (
+                    <div
                       key={i}
-                      animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.4 }}
-                      style={{ width: "8px", height: "8px", borderRadius: "50%", background: c, boxShadow: `0 0 10px ${c}` }}
                       title="Active Developer"
+                      style={{
+                        width: "8px", height: "8px", borderRadius: "50%",
+                        background: c, boxShadow: `0 0 10px ${c}`,
+                        animation: `dot-pulse 1.5s ease-in-out infinite`,
+                        animationDelay: `${i * 0.4}s`,
+                      }}
                     />
                   ))}
                 </div>

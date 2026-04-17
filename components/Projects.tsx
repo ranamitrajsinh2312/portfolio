@@ -15,7 +15,7 @@ export default function Projects() {
       {/* Immersive background glow */}
       <SectionGlow color="rgba(167,139,250,0.08)" />
       <FloatingParticles
-        count={15}
+        count={6}
         colors={["rgba(167,139,250,0.55)", "rgba(108,99,255,0.5)", "rgba(244,114,182,0.35)"]}
         zIndex={0}
       />
@@ -74,9 +74,12 @@ export default function Projects() {
               {/* Content side */}
               <div style={{ position: "relative", zIndex: 2 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                  <motion.span
-                    animate={{ opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+                  <style>{`
+                    @keyframes badge-pulse { 0%,100%{opacity:0.7} 50%{opacity:1} }
+                    .proj-badge { animation: badge-pulse 3s ease-in-out infinite; }
+                  `}</style>
+                  <span
+                    className="proj-badge"
                     style={{
                       padding: "4px 12px",
                       borderRadius: "50px",
@@ -89,7 +92,7 @@ export default function Projects() {
                     }}
                   >
                     {project.badge}
-                  </motion.span>
+                  </span>
                 </div>
 
                 <h3
@@ -181,16 +184,6 @@ export default function Projects() {
                 </motion.div>
               </div>
 
-              {/* Shimmer overlay */}
-              <motion.div
-                animate={{ x: ["-100%", "200%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
-                style={{
-                  position: "absolute", top: 0, left: 0, width: "30%", height: "100%",
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent)",
-                  transform: "skewX(-20deg)", pointerEvents: "none", zIndex: 1,
-                }}
-              />
             </motion.div>
           ))}
         </div>

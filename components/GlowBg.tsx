@@ -1,103 +1,124 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 /**
- * GlowBg — Abstract floating shapes and particles background.
- * Circles, Squares, and Border-only versions drifting in 3D space.
- * Low opacity (5-15%) for a premium, non-distracting feel.
+ * GlowBg — Ambient background glow.
+ * Uses pure CSS animations (no Framer Motion) to prevent scroll jank.
+ * Shapes use will-change: transform and contain: strict for GPU compositing.
  */
 export default function GlowBg() {
-  // Generate some random shapes and particles
-  const shapes = [
-    { type: "circle", size: 300, color: "rgba(108,99,255,0.08)", border: false, top: "10%", left: "5%", dur: 22 },
-    { type: "square", size: 400, color: "transparent", border: true, top: "40%", left: "70%", dur: 28 },
-    { type: "circle", size: 250, color: "transparent", border: true, top: "70%", left: "10%", dur: 25 },
-    { type: "square", size: 350, color: "rgba(56,189,248,0.06)", border: false, top: "15%", left: "75%", dur: 32 },
-    { type: "circle", size: 500, color: "rgba(167,139,250,0.04)", border: false, top: "35%", left: "20%", dur: 35 },
-    { type: "square", size: 200, color: "transparent", border: true, top: "85%", left: "60%", dur: 20 },
-    { type: "circle", size: 150, color: "rgba(52,211,153,0.07)", border: false, top: "50%", left: "45%", dur: 18 },
-  ];
-
-  const particles = Array.from({ length: 45 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 3 + 1,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    dur: Math.random() * 20 + 20,
-    delay: Math.random() * 10,
-    color: ["rgba(108,99,255,0.15)", "rgba(56,189,248,0.15)", "rgba(167,139,250,0.15)"][i % 3],
-  }));
-
   return (
-    <div
-      aria-hidden
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: "none",
-        overflow: "hidden",
-      }}
-    >
-      {/* ── Floating abstract shapes ── */}
-      {shapes.map((s, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, rotate: 0 }}
-          animate={{
-            opacity: [0.3, 0.7, 0.3],
-            x: [0, 50, -30, 0],
-            y: [0, -40, 60, 0],
-            rotate: [0, 90, 180, 360],
-          }}
-          transition={{ duration: s.dur, repeat: Infinity, ease: "linear" }}
+    <>
+      <style>{`
+        @keyframes gb-float1 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33%       { transform: translate(30px, -40px) rotate(60deg); }
+          66%       { transform: translate(-20px, 30px) rotate(120deg); }
+        }
+        @keyframes gb-float2 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          50%       { transform: translate(-50px, 60px) rotate(180deg); }
+        }
+        @keyframes gb-float3 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          40%       { transform: translate(40px, -30px) rotate(90deg); }
+          80%       { transform: translate(-30px, 20px) rotate(200deg); }
+        }
+        @keyframes gb-float4 {
+          0%, 100% { transform: translate(0, 0); }
+          50%       { transform: translate(60px, -50px); }
+        }
+        @keyframes gb-float5 {
+          0%, 100% { transform: translate(0, 0); }
+          50%       { transform: translate(-40px, 40px); }
+        }
+        .gb-shape {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+          will-change: transform;
+        }
+      `}</style>
+
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+        }}
+      >
+        {/* Large purple blob top-left */}
+        <div
+          className="gb-shape"
           style={{
-            position: "absolute",
-            top: s.top,
-            left: s.left,
-            width: s.size,
-            height: s.size,
-            borderRadius: s.type === "circle" ? "50%" : "24px",
-            backgroundColor: s.color,
-            border: s.border ? "1px solid rgba(255,255,255,0.06)" : "none",
-            filter: "blur(40px)",
+            top: "5%", left: "2%",
+            width: 500, height: 500,
+            background: "rgba(108,99,255,0.07)",
+            filter: "blur(80px)",
+            animation: "gb-float1 28s ease-in-out infinite",
           }}
         />
-      ))}
 
-      {/* ── Drifting particles ── */}
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          animate={{
-            y: [0, -100],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: p.dur,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "linear",
-          }}
+        {/* Cyan blob top-right */}
+        <div
+          className="gb-shape"
           style={{
-            position: "absolute",
-            top: p.top,
-            left: p.left,
-            width: p.size,
-            height: p.size,
-            borderRadius: "50%",
-            backgroundColor: p.color,
-            boxShadow: `0 0 10px ${p.color}`,
+            top: "10%", right: "5%",
+            width: 420, height: 420,
+            background: "rgba(56,189,248,0.05)",
+            filter: "blur(80px)",
+            animation: "gb-float2 35s ease-in-out infinite",
+            animationDelay: "-8s",
           }}
         />
-      ))}
 
-      {/* ── Deep vignette overlay (optional but nice) ── */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background: "radial-gradient(circle at center, transparent 0%, rgba(10,10,15,0.4) 100%)",
-      }} />
-    </div>
+        {/* Violet blob center */}
+        <div
+          className="gb-shape"
+          style={{
+            top: "40%", left: "25%",
+            width: 550, height: 550,
+            background: "rgba(167,139,250,0.04)",
+            filter: "blur(100px)",
+            animation: "gb-float3 40s ease-in-out infinite",
+            animationDelay: "-15s",
+          }}
+        />
+
+        {/* Green teal blob bottom-left */}
+        <div
+          className="gb-shape"
+          style={{
+            bottom: "10%", left: "10%",
+            width: 350, height: 350,
+            background: "rgba(52,211,153,0.05)",
+            filter: "blur(70px)",
+            animation: "gb-float4 25s ease-in-out infinite",
+            animationDelay: "-5s",
+          }}
+        />
+
+        {/* Pink blob bottom-right */}
+        <div
+          className="gb-shape"
+          style={{
+            bottom: "15%", right: "8%",
+            width: 300, height: 300,
+            background: "rgba(244,114,182,0.04)",
+            filter: "blur(70px)",
+            animation: "gb-float5 30s ease-in-out infinite",
+            animationDelay: "-20s",
+          }}
+        />
+
+        {/* Deep vignette overlay */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(circle at center, transparent 0%, rgba(10,10,15,0.4) 100%)",
+        }} />
+      </div>
+    </>
   );
 }
